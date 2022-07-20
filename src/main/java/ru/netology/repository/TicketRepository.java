@@ -12,6 +12,12 @@ public class TicketRepository {
     protected Ticket[] tickets = new Ticket[0];
 
     public void saveTicket (Ticket newTicket) {
+        Ticket newId = findTicketById(newTicket.getId());
+        if (newId != null) {
+            throw new AlreadyExistsException(
+                    "Билет с id " + newTicket.getId() + " уже существует"
+            );
+        }
         Ticket[] tmp = new Ticket[tickets.length + 1];
         for (int i = 0; i < tickets.length; i++) {
             tmp[i] = tickets[i];
